@@ -32,6 +32,37 @@ typedef enum {
 	MAG_IDLE_2		= 3
 } hmc5883l_mode_t;
 
+typedef enum {
+	HMC5883L_HIGHSPEED_DISABLED = 0,
+	HMC5883L_HIGHSPEED_ENABLED = 1
+} hmc5883l_highspeed_t;
+
+typedef enum {
+	HMC5883L_OUTPUT_RATE_0_75_HZ = 0,
+	HMC5883L_OUTPUT_RATE_1_5_HZ = 1,
+	HMC5883L_OUTPUT_RATE_3_HZ = 2,
+	HMC5883L_OUTPUT_RATE_7_5_HZ = 3,
+	HMC5883L_OUTPUT_RATE_15_HZ = 4,
+	HMC5883L_OUTPUT_RATE_30_HZ = 5,
+	HMC5883L_OUTPUT_RATE_75_HZ = 6
+} hmc5883l_output_rate_t;
+
+typedef enum {
+	HMC5883L_SAMPLE_AVG_1 = 0,
+	HMC5883L_SAMPLE_AVG_2 = 1,
+	HMC5883L_SAMPLE_AVG_4 = 2,
+	HMC5883L_SAMPLE_AVG_8 = 3
+} hmc5883l_sample_avg_t;
+
+typedef struct {
+	hmc5883l_sample_avg_t samples_avg;
+	hmc5883l_output_rate_t output_rate;
+	hmc5883l_measurement_mode_t m_mode;
+	hmc5883l_fs_t gain;
+	hmc5883l_highspeed_t hs;
+	hmc5883l_mode_t mode;
+} hmc5883l_config_t;
+
 typedef struct {
 	int16_t raw_x;
 	int16_t raw_y;
@@ -49,11 +80,9 @@ typedef struct {
 extern hmc5883l_handle_t hmc5883l_create(i2c_port_t port, uint16_t addr); // dev addresse are fixed
 extern esp_err_t hmc5883l_delete(hmc5883l_handle_t sensor);
 
-
-extern esp_err_t hmc5883l_config(hmc5883l_handle_t sensor, const hmc5883l_fs_t scale, const hmc5883l_measurement_mode_t m_mode, const hmc5883l_mode_t mode); // TODO edit
+extern esp_err_t hmc5883l_config(hmc5883l_handle_t sensor, const hmc5883l_config_t cfg);
 
 extern esp_err_t hmc5883l_get_gain(hmc5883l_handle_t sensor, uint16_t* gain);
-
 extern esp_err_t hmc5883l_get_raw_mag_field(hmc5883l_handle_t sensor, mag_field_raw_t* mag);
 extern esp_err_t hmc5883l_get_mag_field(hmc5883l_handle_t sensor, mag_field_t* mag);
 

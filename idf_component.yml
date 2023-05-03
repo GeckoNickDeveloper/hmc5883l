@@ -1,5 +1,5 @@
-version: "0.0.2"
-description: "HMC5883L magnetormeter component for ESP-IDF."
+version: "0.0.3"
+description: "HMC5883L magnetometer component for ESP-IDF."
 url: ""  # could be a github repo.
 
 dependencies:

@@ -25,7 +25,8 @@ typedef struct {
 
 
 
-hmc5883l_handle_t hmc5883l_create(i2c_port_t port, uint16_t addr) {
+hmc5883l_handle_t hmc5883l_create(i2c_port_t port, uint16_t addr)
+{
 	hmc5883l_dev_t* sensor = (hmc5883l_dev_t*) calloc(1, sizeof(hmc5883l_dev_t));
 
 	sensor->bus = port;
@@ -34,7 +35,8 @@ hmc5883l_handle_t hmc5883l_create(i2c_port_t port, uint16_t addr) {
 	return (hmc5883l_handle_t) sensor;
 };
 
-esp_err_t hmc5883l_delete(hmc5883l_handle_t sensor) {
+esp_err_t hmc5883l_delete(hmc5883l_handle_t sensor)
+{
 	hmc5883l_dev_t *sens = (hmc5883l_dev_t *) sensor;
 
     free(sens);
@@ -44,10 +46,8 @@ esp_err_t hmc5883l_delete(hmc5883l_handle_t sensor) {
 
 
 
-
-
-
-static esp_err_t hmc5883l_read(hmc5883l_handle_t sensor, const uint8_t reg_start_addr, uint8_t *const data_buf, const uint8_t data_len) {
+static esp_err_t hmc5883l_read(hmc5883l_handle_t sensor, const uint8_t reg_start_addr, uint8_t *const data_buf, const uint8_t data_len)
+{
 	hmc5883l_dev_t *sens = (hmc5883l_dev_t *) sensor;
     esp_err_t  ret;
 
@@ -72,7 +72,8 @@ static esp_err_t hmc5883l_read(hmc5883l_handle_t sensor, const uint8_t reg_start
     return ret;
 };
 
-static esp_err_t hmc5883l_write(hmc5883l_handle_t sensor, const uint8_t reg_start_addr, const uint8_t *const data_buf, const uint8_t data_len) {
+static esp_err_t hmc5883l_write(hmc5883l_handle_t sensor, const uint8_t reg_start_addr, const uint8_t *const data_buf, const uint8_t data_len)
+{
 	hmc5883l_dev_t *sens = (hmc5883l_dev_t *) sensor;
     esp_err_t  ret;
 
@@ -95,19 +96,20 @@ static esp_err_t hmc5883l_write(hmc5883l_handle_t sensor, const uint8_t reg_star
 
 
 
-esp_err_t hmc5883l_config(hmc5883l_handle_t sensor, const hmc5883l_fs_t scale, const hmc5883l_measurement_mode_t m_mode, const hmc5883l_mode_t mode) {
-	uint8_t config[3];
-	config[0] = 0x10 | m_mode;
-	config[1] = (scale << 5);
-	config[2] = 0x00 | mode;
+esp_err_t hmc5883l_config(hmc5883l_handle_t sensor, const hmc5883l_config_t cfg)
+{
+	int8_t config[3];
+	config[0] = (cfg.samples_avg << 5) | (cfg.output_rate << 2) | cfg.m_mode;
+	config[1] = (cfg.gain << 5);
+	config[2] = (cfg.hs << 7) | cfg.mode;
 
 	return hmc5883l_write(sensor, HMC5883L_CONFIG_A_REG, config, sizeof(config));
-}; // TODO edit
+};
 
 
 
-
-esp_err_t hmc5883l_get_gain(hmc5883l_handle_t sensor, uint16_t* gain) {
+esp_err_t hmc5883l_get_gain(hmc5883l_handle_t sensor, uint16_t* gain)
+{
 	esp_err_t ret;
 
 	uint8_t fs;
@@ -154,7 +156,8 @@ esp_err_t hmc5883l_get_gain(hmc5883l_handle_t sensor, uint16_t* gain) {
 	return ret;
 };
 
-esp_err_t hmc5883l_get_raw_mag_field(hmc5883l_handle_t sensor, mag_field_raw_t* mag) {
+esp_err_t hmc5883l_get_raw_mag_field(hmc5883l_handle_t sensor, mag_field_raw_t* mag)
+{
 	esp_err_t ret;
 
 	uint8_t data[6];
@@ -173,7 +176,8 @@ esp_err_t hmc5883l_get_raw_mag_field(hmc5883l_handle_t sensor, mag_field_raw_t* 
 	return ret;
 };
 
-esp_err_t hmc5883l_get_mag_field(hmc5883l_handle_t sensor, mag_field_t* mag) {
+esp_err_t hmc5883l_get_mag_field(hmc5883l_handle_t sensor, mag_field_t* mag)
+{
 	esp_err_t ret;
 	uint16_t gain;
 	mag_field_raw_t raw;

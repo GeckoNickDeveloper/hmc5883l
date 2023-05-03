@@ -15,7 +15,4 @@ No instructions available at the moment
 ## Next versions updates & fixes
 
 - Single mode
-- High Speed I2C enable
-- Sample Average
-- Sample Output Rate
 - Status Register usage
