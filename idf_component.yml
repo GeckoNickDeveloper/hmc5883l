@@ -1,4 +1,4 @@
-version: "0.0.1"
+version: "0.0.2"
 description: "HMC5883L magnetormeter component for ESP-IDF."
 url: ""  # could be a github repo.
 

@@ -1,5 +1,6 @@
 #include "esp_system.h"
 #include "driver/i2c.h"
+#include <esp_log.h>
 
 #include "hmc5883l.h"
 
@@ -110,6 +111,7 @@ esp_err_t hmc5883l_get_gain(hmc5883l_handle_t sensor, uint16_t* gain) {
 	esp_err_t ret;
 
 	uint8_t fs;
+	*gain = (uint16_t) 0x0000;
 
 	ret = hmc5883l_read(sensor, HMC5883L_CONFIG_B_REG, &fs, 1);
 
@@ -120,32 +122,32 @@ esp_err_t hmc5883l_get_gain(hmc5883l_handle_t sensor, uint16_t* gain) {
 
 	switch (fs) {
 	case MAG_FS_0_88GA:
-		gain = 1370;
+		*gain = (uint16_t) 1370;
 		break;
 	case MAG_FS_1_3GA:
-		gain = 1090;
+		*gain = (uint16_t) 1090;
 		break;
 	case MAG_FS_1_9GA:
-		gain = 820;
+		*gain = (uint16_t) 820;
 		break;
 	case MAG_FS_2_5GA:
-		gain = 660;
+		*gain = (uint16_t) 660;
 		break;
 	case MAG_FS_4_0GA:
-		gain = 440;
+		*gain = (uint16_t) 440;
 		break;
 	case MAG_FS_4_7GA:
-		gain = 390;
+		*gain = (uint16_t) 390;
 		break;
 	case MAG_FS_5_6GA:
-		gain = 330;
+		*gain = (uint16_t) 330;
 		break;
 	case MAG_FS_8_1GA:
-		gain = 230;
+		*gain = (uint16_t) 230;
 		break;
 	
 	default:
-		gain = 1370;
+		*gain = (uint16_t) 1370;
 		break;
 	}
 
@@ -162,16 +164,18 @@ esp_err_t hmc5883l_get_raw_mag_field(hmc5883l_handle_t sensor, mag_field_raw_t* 
 	if (ret != ESP_OK)
 		return ret;
 
-	mag->x = (int16_t) ((data[0] << 8) | data[1]);
-	mag->z = (int16_t) ((data[2] << 8) | data[3]);
-	mag->y = (int16_t) ((data[4] << 8) | data[5]);
+	mag->raw_x = (int16_t) ((data[0] << 8) | data[1]);
+	mag->raw_z = (int16_t) ((data[2] << 8) | data[3]);
+	mag->raw_y = (int16_t) ((data[4] << 8) | data[5]);
 
+	ESP_LOGW("WTF", "RAW [%d, %d, %d]", mag->raw_x, mag->raw_y, mag->raw_z);
+	ESP_LOGE("WTF-2", "RAW [%x-%x, %x-%x, %x-%x]", data[0], data[1], data[2], data[3], data[4], data[5]);
 	return ret;
 };
 
 esp_err_t hmc5883l_get_mag_field(hmc5883l_handle_t sensor, mag_field_t* mag) {
 	esp_err_t ret;
-	float gain;
+	uint16_t gain;
 	mag_field_raw_t raw;
 
 	ret = hmc5883l_get_raw_mag_field(sensor, &raw);
@@ -182,9 +186,9 @@ esp_err_t hmc5883l_get_mag_field(hmc5883l_handle_t sensor, mag_field_t* mag) {
 	if (ret != ESP_OK)
 		return ret;
 	
-	mag->x = raw->raw_x / gain;
-	mag->y = raw->raw_y / gain;
-	mag->z = raw->raw_z / gain;
+	mag->x = (float) raw.raw_x / (float) gain;
+	mag->y = (float) raw.raw_y / (float) gain;
+	mag->z = (float) raw.raw_z / (float) gain;
 
 	return ret;
 };
