@@ -20,10 +20,10 @@ typedef enum {
 } hmc5883l_fs_t; // TODO RENAME
 
 typedef enum {
-	MAG_MEASURMENT_MODE_NORMAL		= 0,
-	MAG_MEASURMENT_MODE_POS_BIAS	= 1,
-	MAG_MEASURMENT_MODE_NEG_BIAS	= 2
-} hmc5883l_measurment_mode_t;
+	MAG_MEASUREMENT_MODE_NORMAL		= 0,
+	MAG_MEASUREMENT_MODE_POS_BIAS	= 1,
+	MAG_MEASUREMENT_MODE_NEG_BIAS	= 2
+} hmc5883l_measurement_mode_t;
 
 typedef enum {
 	MAG_CONTINUOUS	= 0,
@@ -50,7 +50,7 @@ extern hmc5883l_handle_t hmc5883l_create(i2c_port_t port, uint16_t addr); // dev
 extern esp_err_t hmc5883l_delete(hmc5883l_handle_t sensor);
 
 
-extern esp_err_t hmc5883l_config(hmc5883l_handle_t sensor, const hmc5883l_fs_t scale, const hmc5883l_measurment_mode_t m_mode, const hmc5883l_mode_t mode); // TODO edit
+extern esp_err_t hmc5883l_config(hmc5883l_handle_t sensor, const hmc5883l_fs_t scale, const hmc5883l_measurement_mode_t m_mode, const hmc5883l_mode_t mode); // TODO edit
 
 extern esp_err_t hmc5883l_get_gain(hmc5883l_handle_t sensor, uint16_t* gain);
 
