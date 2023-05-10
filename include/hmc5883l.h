@@ -1,3 +1,15 @@
+/**
+ * @file hmc5883l.h
+ * @author Nicholas Kania (nicholas.nick.kania.development@gmail.com)
+ * @brief Driver library of the sensor HMC5883L
+ * 
+ * @version 0.0.3
+ * @date 2023-05-10
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #ifndef HMC5883L_H
 #define HMC5883L_H
 
