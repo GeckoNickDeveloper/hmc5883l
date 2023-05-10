@@ -6,8 +6,22 @@
 
 #define HMC5883L_ADDRESS 0x1E
 
+/** @defgroup header hmc5883l
+ *  Full library group
+ *  @{
+ */
+
+/**
+ * @typedef hmc5883l_handle_t
+ */
 typedef void* hmc5883l_handle_t;
 
+/**
+ * @enum hmc5883l_fs_t
+ * @brief Used for configure the sensor gain (scale)
+ * 
+ * @todo rename
+ */
 typedef enum {
 	MAG_FS_0_88GA	= 0,
 	MAG_FS_1_3GA	= 1,
@@ -17,14 +31,26 @@ typedef enum {
 	MAG_FS_4_7GA	= 5,
 	MAG_FS_5_6GA	= 6,
 	MAG_FS_8_1GA	= 7
-} hmc5883l_fs_t; // TODO RENAME
+} hmc5883l_fs_t;
 
+/**
+ * @enum hmc5883l_measurement_mode_t
+ * @brief Used for configure the sensor measuremenet mode
+ * 
+ * @todo rename
+ */
 typedef enum {
 	MAG_MEASUREMENT_MODE_NORMAL		= 0,
 	MAG_MEASUREMENT_MODE_POS_BIAS	= 1,
 	MAG_MEASUREMENT_MODE_NEG_BIAS	= 2
 } hmc5883l_measurement_mode_t;
 
+/**
+ * @enum hmc5883l_mode_t
+ * @brief Used for configure the sensor mode
+ * 
+ * @todo rename
+ */
 typedef enum {
 	MAG_CONTINUOUS	= 0,
 	MAG_SINGLE		= 1,
@@ -32,11 +58,19 @@ typedef enum {
 	MAG_IDLE_2		= 3
 } hmc5883l_mode_t;
 
+/**
+ * @enum hmc5883l_highspeed_t
+ * @brief Used for enabling I2C highspeed (3400kHz)
+ */
 typedef enum {
 	HMC5883L_HIGHSPEED_DISABLED = 0,
 	HMC5883L_HIGHSPEED_ENABLED = 1
 } hmc5883l_highspeed_t;
 
+/**
+ * @enum hmc5883l_output_rate_t
+ * @brief Used for configure the sensor output rate
+ */
 typedef enum {
 	HMC5883L_OUTPUT_RATE_0_75_HZ = 0,
 	HMC5883L_OUTPUT_RATE_1_5_HZ = 1,
@@ -47,6 +81,10 @@ typedef enum {
 	HMC5883L_OUTPUT_RATE_75_HZ = 6
 } hmc5883l_output_rate_t;
 
+/**
+ * @enum hmc5883l_sample_avg_t
+ * @brief Used for configure the sensor sample avarage
+ */
 typedef enum {
 	HMC5883L_SAMPLE_AVG_1 = 0,
 	HMC5883L_SAMPLE_AVG_2 = 1,
@@ -54,6 +92,10 @@ typedef enum {
 	HMC5883L_SAMPLE_AVG_8 = 3
 } hmc5883l_sample_avg_t;
 
+/**
+ * @struct hmc5883l_config_t
+ * @brief Used to full configurate the sensor with an unique structure
+ */
 typedef struct {
 	hmc5883l_sample_avg_t samples_avg;
 	hmc5883l_output_rate_t output_rate;
@@ -63,12 +105,20 @@ typedef struct {
 	hmc5883l_mode_t mode;
 } hmc5883l_config_t;
 
+/**
+ * @struct mag_field_raw_t
+ * @brief Rappresents the raw values read by the sensor
+ */
 typedef struct {
 	int16_t raw_x;
 	int16_t raw_y;
 	int16_t raw_z;
 } mag_field_raw_t;
 
+/**
+ * @struct mag_field_t
+ * @brief Rappresents the values read by the sensor adjusted with the configured gain
+ */
 typedef struct {
 	float x;
 	float y;
@@ -76,14 +126,72 @@ typedef struct {
 } mag_field_t;
 
 
-
+/**
+ * 
+ * @brief Used for configure the sensor measuremnet mode
+ * 
+ * @param
+ * @param
+ * 
+ * @return
+ */
 extern hmc5883l_handle_t hmc5883l_create(i2c_port_t port, uint16_t addr); // dev addresse are fixed
+/**
+ * @fn mag_field_t
+ * @brief Used for configure the sensor measuremnet mode
+ * 
+ * @param
+ * @param
+ * 
+ * @return
+ */
 extern esp_err_t hmc5883l_delete(hmc5883l_handle_t sensor);
 
+/**
+ * @fn mag_field_t
+ * @brief Used for configure the sensor measuremnet mode
+ * 
+ * @param
+ * @param
+ * 
+ * @return
+ */
 extern esp_err_t hmc5883l_config(hmc5883l_handle_t sensor, const hmc5883l_config_t cfg);
 
+/**
+ * @fn mag_field_t
+ * @brief Used for configure the sensor measuremnet mode
+ * 
+ * @param
+ * @param
+ * 
+ * @return
+ */
 extern esp_err_t hmc5883l_get_gain(hmc5883l_handle_t sensor, uint16_t* gain);
+/**
+ * @fn mag_field_t
+ * @brief Used for configure the sensor measuremnet mode
+ * 
+ * @param
+ * @param
+ * 
+ * @return
+ */
 extern esp_err_t hmc5883l_get_raw_mag_field(hmc5883l_handle_t sensor, mag_field_raw_t* mag);
+/**
+ * @fn mag_field_t
+ * @brief Used for configure the sensor measuremnet mode
+ * 
+ * @param
+ * @param
+ * 
+ * @return
+ */
 extern esp_err_t hmc5883l_get_mag_field(hmc5883l_handle_t sensor, mag_field_t* mag);
+
+
+/**
+ * @}
+ */
 
 #endif //! HMC5883L_H
