@@ -6,11 +6,6 @@
 
 #define HMC5883L_ADDRESS 0x1E
 
-/** @defgroup header hmc5883l
- *  Full library group
- *  @{
- */
-
 /**
  * @typedef hmc5883l_handle_t
  */
@@ -188,10 +183,5 @@ extern esp_err_t hmc5883l_get_raw_mag_field(hmc5883l_handle_t sensor, mag_field_
  * @return
  */
 extern esp_err_t hmc5883l_get_mag_field(hmc5883l_handle_t sensor, mag_field_t* mag);
-
-
-/**
- * @}
- */
 
 #endif //! HMC5883L_H
