@@ -122,65 +122,58 @@ typedef struct {
 
 
 /**
+ * @brief Create a sensor handler given the I2C port and sensor address
  * 
- * @brief Used for configure the sensor measuremnet mode
+ * @param port I2C port
+ * @param addr I2C sensor address
  * 
- * @param
- * @param
- * 
- * @return
+ * @return hmc5883l_handle_t Sensor handler
  */
 extern hmc5883l_handle_t hmc5883l_create(i2c_port_t port, uint16_t addr); // dev addresse are fixed
 /**
- * @fn mag_field_t
- * @brief Used for configure the sensor measuremnet mode
+ * @brief Delete the given handler
  * 
- * @param
- * @param
+ * @param sensor Sensor handler
  * 
- * @return
+ * @return esp_err_t
  */
 extern esp_err_t hmc5883l_delete(hmc5883l_handle_t sensor);
 
 /**
- * @fn mag_field_t
- * @brief Used for configure the sensor measuremnet mode
+ * @brief Apply to the given sensor a specific configuration
  * 
- * @param
- * @param
+ * @param sensor Sensor handler
+ * @param cfg Configuration to apply
  * 
- * @return
+ * @return esp_err_t
  */
 extern esp_err_t hmc5883l_config(hmc5883l_handle_t sensor, const hmc5883l_config_t cfg);
 
 /**
- * @fn mag_field_t
- * @brief Used for configure the sensor measuremnet mode
+ * @brief Retrieve the configured gain value
  * 
- * @param
- * @param
+ * @param sensor Sensor handler
+ * @param gain Pointer to store the configured gain value
  * 
- * @return
+ * @return esp_err_t
  */
 extern esp_err_t hmc5883l_get_gain(hmc5883l_handle_t sensor, uint16_t* gain);
 /**
- * @fn mag_field_t
- * @brief Used for configure the sensor measuremnet mode
+ * @brief Retrieve the raw readings of the sensor
  * 
- * @param
- * @param
+ * @param sensor Sensor handler
+ * @param mag Pointer to store the raw reading
  * 
- * @return
+ * @return esp_err_t
  */
 extern esp_err_t hmc5883l_get_raw_mag_field(hmc5883l_handle_t sensor, mag_field_raw_t* mag);
 /**
- * @fn mag_field_t
- * @brief Used for configure the sensor measuremnet mode
+ * @brief Retrieve the readings of the sensor adjusted according to current gain
  * 
- * @param
- * @param
+ * @param sensor Sensor handler
+ * @param mag Pointer to store the reading
  * 
- * @return
+ * @return esp_err_t
  */
 extern esp_err_t hmc5883l_get_mag_field(hmc5883l_handle_t sensor, mag_field_t* mag);
 
