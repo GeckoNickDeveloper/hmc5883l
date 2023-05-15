@@ -1,6 +1,5 @@
 #include "esp_system.h"
 #include "driver/i2c.h"
-#include <esp_log.h>
 
 #include "hmc5883l.h"
 
@@ -171,8 +170,6 @@ esp_err_t hmc5883l_get_raw_mag_field(hmc5883l_handle_t sensor, mag_field_raw_t* 
 	mag->raw_z = (int16_t) ((data[2] << 8) | data[3]);
 	mag->raw_y = (int16_t) ((data[4] << 8) | data[5]);
 
-	ESP_LOGW("WTF", "RAW [%d, %d, %d]", mag->raw_x, mag->raw_y, mag->raw_z);
-	ESP_LOGE("WTF-2", "RAW [%x-%x, %x-%x, %x-%x]", data[0], data[1], data[2], data[3], data[4], data[5]);
 	return ret;
 };
 
