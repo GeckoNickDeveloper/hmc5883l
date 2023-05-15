@@ -1,6 +1,8 @@
-version: "0.0.3"
-description: "HMC5883L magnetometer component for ESP-IDF."
+version: "1.0.0"
+description: "HMC5883L driver component for ESP-IDF."
 url: ""  # could be a github repo.
+
+maintainers: Nicholas Kania <nicholas.nick.kania.development@gmail.com)
 
 dependencies:
   esp-idf:
